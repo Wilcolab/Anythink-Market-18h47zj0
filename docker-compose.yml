@@ -1,18 +1,22 @@
+version: "3.9"
+
 services:
   python-server:
     build:
       context: ./python-server
       dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - ./python-server/src:/app/src
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
 
   node-server:
     build:
-      context: ./node-server
+      context: ./node-server   # Path to your Node.js app folder
       dockerfile: Dockerfile
     ports:
-      - 8001:8001
+      - "8001:8001"
     volumes:
-      - ./node-server/src:/app/src
+      - ./node-server:/app
+    command: npm start
